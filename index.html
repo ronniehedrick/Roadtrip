@@ -9,6 +9,7 @@
 
 <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat|Raleway" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -21,64 +22,58 @@
   
 <nav> 
     <form class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Username">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="password" placeholder="Password">
-                    </div>
-                    <button type="submit" class="btn btn-default">Sign In</button>
-                </form>
-
+            <div class="form-group">
+                <input type="text" class="form-control" id="user-username" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="user-password" name="password" placeholder="Password">
+            </div>
+                <button type="submit" class="btn btn-default" id="sign-in">Sign In</button>
+                <button type="submit" class="btn btn-default" id="new-user">New User</button>   
+    </form>
 </nav> 
   </header> 
 
-  <div class="jumbotron jumbotron-fluid">
-   <div class="container-jumbotron">
+<div class="jumbotron jumbotron-fluid">
+    <div class="container-jumbotron">
     <h1>Road Trip</h1>
-    <p>We'll Get You There...</p>
-    
-    
-    
-    <div class="row">
-  
-  <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Search</button>
-      </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-    
+    <p>No Matter Where You Go, There We Are...</p>
+        <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="search-term" placeholder="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" id="search-button-submit" type="button">Search</button>
+                  </span>
+                </div><!-- input-group -->
+            </div><!-- col-lg-6 -->
+        </div><!-- row -->
     </div>
-  </div>
-  
+</div>
   
   
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Tickets</div>
+      <div class="panel-heading"><p>FIND YOUR TICKETS!</p></div>
 
-  <!-- Table -->
+<!-- Table -->
   <table class="table">
-    <th>Events</th>
-    <th>Date</th>
-    <th>Location</th>
-    <th>Lowest Price</th>
-    <th>Link to Purchase</th>
+    <th>EVENTS</th>
+    <th>DATE</th>
+    <th>LOCATION</th>
+    <th>LOWEST PRICE</th>
+    <th>LINK TO PURCHASE</th>
   </table>
-</div> 
+</div> <!-- end panel for table-->
  
 <section class="banner">
 
     <h2 class="parallax">ROAD TRIP</h2>
     <p class="parallax_description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem quidem delectus alias quisquam fuga. Error explicabo, quos quod iusto. Quaerat ducimus ipsum facilis voluptates minima dicta neque nihil consectetur officia.</p>
-  </section>
+</section>
   
  
-  <!-- Copyrights Section -->
+<!-- Copylefts Section -->
   <div class="copyright">&copy;2017 - <strong>Road Trip</strong></div>
 </div>
 <!-- Main Container Ends -->
