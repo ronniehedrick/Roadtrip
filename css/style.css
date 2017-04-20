@@ -39,12 +39,13 @@ header {
 
 .container .jumbotron {
 	border-radius: 0px; 
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     background-position: 0% 25%;
     background-size: cover;
     background-repeat: no-repeat;
     color: #FFFFFF;
-	background-image: url(../images/heroslide02.jpg)
+	background-image: url(../images/heroslide02.jpg);
+    
 } 
 
 .h1 {
@@ -56,12 +57,17 @@ header {
     font-size: 1.25 em;
 }
 
+.panel {
+    border:0;
+}
+
+
 .panel > .panel-heading {
     background-image: none;
     background-color: #33517f;
     color: white;
-
-}
+    border: 0;
+} 
 
 .logo {
 	color: #fff;
