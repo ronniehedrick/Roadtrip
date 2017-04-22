@@ -18,8 +18,6 @@ var config = {
       if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
-        $(".form-control").removeClass("hide");
-        $("#new-user").removeClass("hide");
         // [END signout]
       } else {
         var email = document.getElementById('user-email').value;
@@ -103,20 +101,22 @@ var config = {
           var uid = user.uid;
           var providerData = user.providerData;
             
-          var welcomeText = $("<h4 class'welcome'>");
-          welcomeText.text("Welcome ! " + email);
-          $(".form-user").append(welcomeText);
+          $("#welcome-message").text(email);
           $("#sign-in").text("Sign Out");
           $(".form-control").addClass("hide");
           $("#new-user").addClass("hide");
-          $("#user-email").empty();
-          $("#user-password").empty();
+
           // [START_EXCLUDE]
 
         } else {
           // User is signed out.
           // [START_EXCLUDE]
-          $("#sign-in").text("Sign In");
+        $("#welcome-message").text('');
+        $("#sign-in").text("Sign In");
+        $(".form-control").removeClass("hide");
+        $("#new-user").removeClass("hide");
+        $("#user-email").val('');
+        $("#user-password").val('');
         }
         // [START_EXCLUDE silent]
         document.getElementById('sign-in').disabled = false;
