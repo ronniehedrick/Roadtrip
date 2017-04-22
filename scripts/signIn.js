@@ -104,7 +104,8 @@ var config = {
           $(".welcome-message").show();
           $("#welcome-message").text(email);
           $("#sign-in").text("Sign Out");
-          $(".form-control").addClass("hide");
+          $("#user-email").addClass("hide");
+          $("#user-password").addClass("hide");
           $("#new-user").addClass("hide");
 
           // [START_EXCLUDE]
@@ -114,10 +115,11 @@ var config = {
           // [START_EXCLUDE]
         $(".welcome-message").hide();
         $("#sign-in").text("Sign In");
-        $(".form-control").removeClass("hide");
+        $("#user-email").removeClass("hide").val('');
+        $("#user-password").removeClass("hide").val('');
         $("#new-user").removeClass("hide");
-        $("#user-email").val('');
-        $("#user-password").val('');
+        // $("#user-email").val('');
+        // $("#user-password").val('');
         }
         // [START_EXCLUDE silent]
         document.getElementById('sign-in').disabled = false;
