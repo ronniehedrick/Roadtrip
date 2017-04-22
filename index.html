@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One|Montserrat|Raleway" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
 </head>
 <body>
@@ -23,14 +23,14 @@
   
 <nav> 
     <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" id="user-username" name="username" placeholder="Username">
+            <div class="form-group form-user">
+                <input type="email" class="form-control" id="user-email" name="email" placeholder="Email">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" id="user-password" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="user-password" name="password" placeholder="Password">
             </div>
-                <button type="submit" class="btn btn-default" id="sign-in">Sign In</button>
-                <button type="submit" class="btn btn-default" id="new-user">New User</button>   
+                <button type="submit" class="btn btn-default" id="sign-in"></button>
+                <button type="submit" class="btn btn-default" id="new-user">New User</button>    
     </form>
 </nav> 
   </header> 
@@ -78,6 +78,9 @@
   <div class="copyright">&copy;2017 - <strong>Road Trip</strong></div>
 </div>
 <!-- Main Container Ends -->
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
 <script type="text/javascript" src="scripts/roadtrip.js"></script>
 </body>
 </html>
