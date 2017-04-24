@@ -1,3 +1,3 @@
 # Roadtrip
 
-BTW, changed the name to Road Trip Freaks
+BTW, the name of the app is now Road Trip Freaks
