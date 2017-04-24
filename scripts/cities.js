@@ -1,4 +1,4 @@
-var cities{
+var cities = {
     "AAA"  : "Taegu",
     "AAE"  : "Annaba",
     "ABB"  : "Lac Abbe",
