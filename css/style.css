@@ -77,6 +77,12 @@ header {
     font-size: 1.25 em;
 }
 
+
+h4 {
+	color: white;
+}
+
+
 .panel {
     border:0;
 }
