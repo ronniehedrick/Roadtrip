@@ -23,16 +23,18 @@
   
 <nav> 
     <form class="navbar-form navbar-right" role="search">
-            <div class="form-group form-user">
+            <div class="form-group welcome-message">
+              <h4>Welcome! <span id="welcome-message"></span></h4>
+            </div>
+            <div class="form-group">
                 <input type="email" class="form-control" id="user-email" name="email" placeholder="Email">
             </div>
-
             <div class="form-group">
                 <input type="password" class="form-control" id="user-password" name="password" placeholder="Password">
 
             </div>
-                <button type="submit" class="btn btn-default" id="sign-in"></button>
-                <button type="submit" class="btn btn-default" id="new-user">New User</button>    
+            <button type="submit" class="btn btn-default" id="sign-in"></button>
+            <button type="submit" class="btn btn-default" id="new-user">New User</button>    
     </form>
 </nav> 
   </header> 
@@ -79,9 +81,14 @@
 <div class="copyright">&copy;2017 - <strong>Road Trip</strong></div>
 </div>
 <!-- Main Container Ends -->
+
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 
+<!-- main scripts -->
+
 <script type="text/javascript" src="scripts/roadtrip.js"></script>
+<script type="text/javascript" src="scripts/signin.js"></script>
+
 </body>
 </html>
