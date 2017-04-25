@@ -66,7 +66,7 @@ $("#search-button-submit").on("click", function(event) {
 
 
 
-            var queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + departure + "&destination=" + destination + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=25";
+            var queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + departure + "&destination=" + destination + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
 
             console.log(queryURL);
             $.ajax({
@@ -75,7 +75,7 @@ $("#search-button-submit").on("click", function(event) {
                 })
                 .done(function(response) {
                     console.log(response);
-                    var results = repsonse.onwardflights;
+                    var results = response.onwardflights;
 
                     for (var i = 0; i < results.length; i++) {
                      
