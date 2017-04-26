@@ -59,10 +59,11 @@ $("#search-button-submit").on("click", function(event) {
         $('#myTable tbody').on('click', 'button', function() {
             console.log(table);
             var data = table.row($(this).parents('tr')).data();
-
+            $("#flightTable").show();
             var departureDate = data[8];
             var destination = cities[data[7]];
             var departure = cities[data[6]];
+            // HIDE TABLE?? or reload Table
 
 
 
@@ -75,14 +76,25 @@ $("#search-button-submit").on("click", function(event) {
                 })
                 .done(function(response) {
                     console.log(response);
-                    var results = response.onwardflights;
-
+                    var results = response.data.onwardflights;
                     for (var i = 0; i < results.length; i++) {
-                     
-                        flightData.push([]);
+                        var fare = results[i].fare.totalfare * .016;
+                        flightData.push([results[i].deptime, results[i].arrtime, results[i].CabinClass, results[i].airline, fare]);
 
                     };
-
+                    console.log(flightData);
+                    var airTable = $('#flightTable').DataTable({
+                        responsive: true,
+                        "searching": false,
+                        data: dataSet,
+                        columns: [
+                            { title: "Depature Time" },
+                            { title: "Arrival Time" },
+                            { title: "Class" },
+                            { title: "Airline" },
+                            { title: "Price" },
+                        ]
+                    });
                 })
         });
 
@@ -92,16 +104,4 @@ $("#search-button-submit").on("click", function(event) {
 });
 
 
-$('#myTable').DataTable({
-    responsive: true,
-    "searching": false,
-    data: dataSet,
-    columns: [
-        { title: "Event" },
-        { title: "Date" },
-        { title: "City" },
-        { title: "Venue" },
-        { title: "Lowest Price" },
-        { title: "Purchase" },
-    ]
-});
+//moment(departureDate).add(1,'days');
