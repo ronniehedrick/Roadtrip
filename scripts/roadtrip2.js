@@ -1,5 +1,6 @@
 var dataSet = [];
 var flightData = [];
+var retFlightData = [];
 $("#search-button-submit").on("click", function(event) {
     event.preventDefault();
     var searchField = $("#search-term").val().trim();
@@ -82,11 +83,13 @@ $("#search-button-submit").on("click", function(event) {
                                 "defaultContent": "<button class ='flight'>Select</button>"
                             }]
                         });
-                    })
-                $('.flight').on('click', 'button', function() {
+                        $('.flight').on('click', function() {
+               
                     departureDate = moment(departureDate).add(1, "days");
+                    departureDate = moment(departureDate).format('YYYYMMDD');
                     console.log(departureDate);
                     queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + destination + "&destination=" + departure + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
+                    console.log(queryURL);
                     $.ajax({
                         url: queryURL,
                         method: "GET",
@@ -94,14 +97,15 @@ $("#search-button-submit").on("click", function(event) {
                     .done(function(response) {
                         console.log(response);
                         var results = response.data.onwardflights;
-
                         for (var i = 0; i < results.length; i++) {
                             var fare = results[i].fare.totalfare * .016;
                             fare = Math.trunc(fare);
-                            flightData.push([results[i].deptime, results[i].arrtime, results[i].CabinClass, results[i].airline, fare]);
+                            retFlightData.push([results[i].deptime, results[i].arrtime, results[i].CabinClass, results[i].airline, fare]);
                         };
                     });
                 });
+                    })
+                
             });
 
 
