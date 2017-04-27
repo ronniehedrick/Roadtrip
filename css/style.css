@@ -292,7 +292,7 @@ footer .footer_column p {
 	margin-left: 20px;
 	margin-right: 20px;
 }
-.button {
+.button .btn .btn-primary .btn-lg {
 	width: 200px;
 	margin-top: 40px;
 	margin-right: auto;

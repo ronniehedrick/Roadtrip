@@ -1,6 +1,9 @@
 var dataSet = [];
 var flightData = [];
 var retFlightData = [];
+var trip = [];
+totalPrice = 0;
+var data;
 $("#search-button-submit").on("click", function(event) {
     event.preventDefault();
     var searchField = $("#search-term").val().trim();
@@ -28,12 +31,12 @@ $("#search-button-submit").on("click", function(event) {
                 "searching": false,
                 data: dataSet,
                 columns: [
-                    { title: "Event" },
+                    { title: "Event", orderable: false },
                     { title: "Date" },
                     { title: "City" },
                     { title: "Venue" },
                     { title: "Lowest Price" },
-                    { title: "Purchase" },
+                    { title: "Purchase", orderable: false },
                 ],
                 "columnDefs": [{
                     "targets": -1,
@@ -43,7 +46,11 @@ $("#search-button-submit").on("click", function(event) {
             });
             $('#myTable tbody').on('click', 'button', function() {
                 console.log(table);
-                var data = table.row($(this).parents('tr')).data();
+
+                data = table.row($(this).parents('tr')).data();
+                trip.push(data);
+                console.log(trip);
+                totalPrice += data[4];
                 var departureDate = data[8];
                 var destination = cities[data[7]];
                 var departure = cities[data[6]];
@@ -59,11 +66,13 @@ $("#search-button-submit").on("click", function(event) {
 
                         for (var i = 0; i < results.length; i++) {
                             var fare = results[i].fare.totalfare * .016;
+                            var depDate = moment(results[i].depdate).format("MMM-Do-YY");
                             fare = Math.trunc(fare);
-                            flightData.push([results[i].deptime, results[i].arrtime, results[i].CabinClass, results[i].airline, fare]);
+                            flightData.push([results[i].deptime + ", " + depDate, results[i].arrtime, results[i].CabinClass, results[i].flightno, results[i].airline, fare]);
                         };
+
                         console.log(flightData);
-                        $("#myTable").hide();
+                        $("#eventTable").hide();
                         $("#flightDiv").show();
                         var airTable = $('#flightTable').DataTable({
                             responsive: true,
@@ -72,10 +81,11 @@ $("#search-button-submit").on("click", function(event) {
                             columns: [
                                 { title: "Depature Time" },
                                 { title: "Arrival Time" },
-                                { title: "Class" },
+                                { title: "Class", orderable: false },
+                                { title: "Flight Number", orderable: false },
                                 { title: "Airline" },
                                 { title: "Price" },
-                                { title: "Select Flight" }
+                                { title: "Select Flight", orderable: false }
                             ],
                             "columnDefs": [{
                                 "targets": -1,
@@ -84,28 +94,62 @@ $("#search-button-submit").on("click", function(event) {
                             }]
                         });
                         $('.flight').on('click', function() {
-               
-                    departureDate = moment(departureDate).add(1, "days");
-                    departureDate = moment(departureDate).format('YYYYMMDD');
-                    console.log(departureDate);
-                    queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + destination + "&destination=" + departure + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
-                    console.log(queryURL);
-                    $.ajax({
-                        url: queryURL,
-                        method: "GET",
+                            var data = airTable.row($(this).parents('tr')).data();
+                            trip.push(data);
+                            console.log(trip);
+                            totalPrice += data[5];
+                            departureDate = moment(departureDate).add(1, "days");
+                            departureDate = moment(departureDate).format('YYYYMMDD');
+                            console.log(departureDate);
+                            queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + destination + "&destination=" + departure + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
+                            console.log(queryURL);
+                            $.ajax({
+                                    url: queryURL,
+                                    method: "GET",
+                                })
+                                .done(function(response) {
+                                    console.log(response);
+                                    var results = response.data.onwardflights;
+                                    for (var i = 0; i < results.length; i++) {
+                                        var fare = results[i].fare.totalfare * .016;
+                                        var depDate = moment(results[i].depdate).format("MMM-Do-YY");
+                                        fare = Math.trunc(fare);
+                                        retFlightData.push([results[i].deptime + ", " + depDate, results[i].arrtime, results[i].CabinClass, results[i].flightno, results[i].airline, fare]);
+                                    };
+                                    $("#flightDiv").hide();
+                                    $("#retFlightDiv").show();
+                                    var retAirTable = $('#retFlightTable').DataTable({
+                                        responsive: true,
+                                        "searching": false,
+                                        data: retFlightData,
+                                        columns: [
+                                            { title: "Depature Time" },
+                                            { title: "Arrival Time" },
+                                            { title: "Class", orderable: false },
+                                            { title: "Flight Number", orderable: false },
+                                            { title: "Airline" },
+                                            { title: "Price" },
+                                            { title: "Select Flight", orderable: false }
+                                        ],
+                                        "columnDefs": [{
+                                            "targets": -1,
+                                            "data": null,
+                                            "defaultContent": "<button class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>Select</button>"
+                                        }]
+                                    });
+                                    $('.btn btn-primary btn-lg').on('click', function() {
+                                        data = retAirTable.row($(this).parents('tr')).data();
+                                        totalPrice += data[5];
+                                        trip.push(data);
+                                        console.log(trip);
+                                        console.log(totalPrice);
+
+                                    });
+                                });
+                        });
+
                     })
-                    .done(function(response) {
-                        console.log(response);
-                        var results = response.data.onwardflights;
-                        for (var i = 0; i < results.length; i++) {
-                            var fare = results[i].fare.totalfare * .016;
-                            fare = Math.trunc(fare);
-                            retFlightData.push([results[i].deptime, results[i].arrtime, results[i].CabinClass, results[i].airline, fare]);
-                        };
-                    });
-                });
-                    })
-                
+
             });
 
 
