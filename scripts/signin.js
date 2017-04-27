@@ -108,6 +108,7 @@
           $("#user-email").addClass("hide");
           $("#user-password").addClass("hide");
           $("#new-user").addClass("hide");
+          $(".input-group-addon").addClass("hide");
 
           // [START_EXCLUDE]
 
@@ -119,8 +120,8 @@
         $("#user-email").removeClass("hide").val('');
         $("#user-password").removeClass("hide").val('');
         $("#new-user").removeClass("hide");
-        // $("#user-email").val('');
-        // $("#user-password").val('');
+        $(".input-group-addon").removeClass("hide");
+        
         }
         // [START_EXCLUDE silent]
         document.getElementById('sign-in').disabled = false;
