@@ -1,14 +1,13 @@
 // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyA6N9cba7yjSP_5USpvGZVCNccs79pLYBg",
-    authDomain: "roadtripauth.firebaseapp.com",
-    databaseURL: "https://roadtripauth.firebaseio.com",
-    projectId: "roadtripauth",
-    storageBucket: "roadtripauth.appspot.com",
-    messagingSenderId: "506049831436"
+var config = {
+    apiKey: "AIzaSyBeeNYWaNWO0P9zd16ZEZDrNFRfeCRkIto",
+    authDomain: "fir-intro-aaf02.firebaseapp.com",
+    databaseURL: "https://fir-intro-aaf02.firebaseio.com",
+    projectId: "fir-intro-aaf02",
+    storageBucket: "fir-intro-aaf02.appspot.com",
+    messagingSenderId: "144411755167"
   };
   firebase.initializeApp(config);
-
 
 /**
      * Handles the sign in button press.
@@ -46,7 +45,9 @@
           console.log(error);
           document.getElementById('sign-in').disabled = false;
           // [END_EXCLUDE]
+
         });
+       
         // [END authwithemail]
       }
       document.getElementById('sign-in').disabled = true;
@@ -84,6 +85,7 @@
         console.log(error);
         // [END_EXCLUDE]
       });
+      console.log(user);
       // [END createwithemail]
     };
 
@@ -109,7 +111,6 @@
           $("#user-password").addClass("hide");
           $("#new-user").addClass("hide");
           $(".input-group-addon").addClass("hide");
-
           // [START_EXCLUDE]
 
         } else {
@@ -131,6 +132,10 @@
       document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
       document.getElementById('new-user').addEventListener('click', handleSignUp, false);
     }
+
+
+
+
 
 window.onload = function() {
       initApp();
