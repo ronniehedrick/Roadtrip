@@ -95,6 +95,12 @@
                  </div><!-- end input-group -->
     </div><!-- end panel heading -->
 <!-- Table (search results) -->
+<div id="errorTickets" style="display: none">
+<h1>We are sorry, no tickets were found matching your request.</h1>
+</div>
+<div id="errorFlights" style="display: none">
+<h1>We are sorry, no flights were found matching your request.</h1>
+</div>
 <div id = "eventTable" style="display: none">
   <table class="table" id="myTable" width="100%">
     <th>EVENTS</th>
@@ -123,19 +129,13 @@
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-       
-       
-       
-       
-       
-       
-       
-       
-       
-        ...
+            <h1 id="totalCost"></h1> <br>
+            <a id="buyTickets" target="_blank">StubHub</a>
+            <br>
+            <a id="myLink" href="www.google.com" target="_blank">Flights</a>
+ 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>

@@ -7,7 +7,7 @@ var data;
 $("#search-button-submit").on("click", function(event) {
     event.preventDefault();
     var searchField = $("#search-term").val().trim();
-    var queryURL = "https://api.seatgeek.com/2/events?listing_count.gt=0&per_page=1000&geoip=true&range=12500mi&q=" + searchField + "&client_id=NzM0Nzk1NHwxNDkyNDczMTg5LjEx";
+    var queryURL = "https://api.seatgeek.com/2/events?listing_count.gt=0&per_page=100&geoip=true&range=12500mi&q=" + searchField + "&client_id=NzM0Nzk1NHwxNDkyNDczMTg5LjEx";
     console.log(queryURL);
     $.ajax({
             url: queryURL,
@@ -15,6 +15,8 @@ $("#search-button-submit").on("click", function(event) {
         })
         // After data comes back from the request
         .done(function(response) {
+
+
             var results = response.events;
             var dataSet = [];
             var table = $('#myTable').DataTable();
@@ -25,28 +27,35 @@ $("#search-button-submit").on("click", function(event) {
             airTable.destroy();
             retAirTable.destroy();
 
-
+            $('#errorTickets').hide();
+            $('#errorFlights').hide();
             $("#eventTable").show();
             $("#flightDiv").hide();
             $('#retFlightDiv').hide();
 
-
-
-
             for (var i = 0; i < results.length; i++) {
                 var local = results[i].datetime_local;
-                var localTime = moment(local).format('MMM Do YY, h:mm a');
+                var localTime = moment(local).format('MM/D/YYYY, h:mm a');
                 var localTime2 = moment(local).format('YYYYMMDD');
-                dataSet.push([results[i].title, localTime, results[i].venue.city + ", " + results[i].venue.state, results[i].venue.name, results[i].stats.lowest_price, results[i].url, response.meta.geolocation.city, results[i].venue.city, localTime2]);
+                dataSet.push([results[i].title, localTime, results[i].venue.city + ", " + results[i].venue.state, results[i].venue.name, "$" + results[i].stats.lowest_price, results[i].url, response.meta.geolocation.city, results[i].venue.city, localTime2, results[i].stats.lowest_price]);
             };
+
+            if (results.length < 1) {
+                $('#errorTickets').show();
+                $('#eventTable').hide();
+            };
+
             console.log(dataSet);
             var table = $('#myTable').DataTable({
                 responsive: true,
                 "searching": false,
                 data: dataSet,
+                "order": [
+                    [1, "asc"]
+                ],
                 columns: [
-                    { title: "Event", orderable: false },
-                    { title: "Date" },
+                    { title: "Event" },
+                    { title: "Date", "type": "date" },
                     { title: "City" },
                     { title: "Venue" },
                     { title: "Lowest Price" },
@@ -59,17 +68,18 @@ $("#search-button-submit").on("click", function(event) {
                 }]
             });
             $('#myTable tbody').on('click', 'button', function() {
-                console.log(table);
 
                 data = table.row($(this).parents('tr')).data();
+                $("#buyTickets").attr("href", data[5]);
                 trip.push(data);
                 console.log(trip);
-                totalPrice += data[4];
+                totalPrice += data[9];
                 var departureDate = data[8];
                 var destination = cities[data[7]];
                 var departure = cities[data[6]];
                 var queryURL = "https://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + departure + "&destination=" + destination + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
                 console.log(queryURL);
+
                 $.ajax({
                         url: queryURL,
                         method: "GET",
@@ -77,24 +87,39 @@ $("#search-button-submit").on("click", function(event) {
                     .done(function(response) {
                         console.log(response);
                         var results = response.data.onwardflights;
+                        var errorFilter = response.data_length;
+                        console.log(errorFilter);
+                        if (errorFilter == 1) {
+                            $('#errorFlights').show();
+                            $("#eventTable").hide();
+                            $('#flightDiv').hide();
+                        };
 
                         for (var i = 0; i < results.length; i++) {
                             var fare = results[i].fare.totalfare * .016;
-                            var depDate = moment(results[i].depdate).format("MMM-Do-YY");
+                            var depDate = moment(results[i].depdate).format("MM/D/YYYY");
                             fare = Math.trunc(fare);
-                            flightData.push([results[i].deptime + ", " + depDate, results[i].arrtime, results[i].CabinClass, results[i].flightno, results[i].airline, fare]);
+                            var depTime = moment(results[i].deptime, "HH:mm").format('h:mm a');
+                            var arrTime = moment(results[i].arrtime, "HH:mm").format('h:mm a');
+                            flightData.push([depTime + ", " + depDate, arrTime, results[i].CabinClass, results[i].flightno, results[i].airline, "$" + fare, fare]);
                         };
+
 
                         console.log(flightData);
                         $("#eventTable").hide();
                         $("#flightDiv").show();
+
+
                         var airTable = $('#flightTable').DataTable({
                             responsive: true,
                             "searching": false,
                             data: flightData,
+                            "order": [
+                                [1, "desc"]
+                            ],
                             columns: [
-                                { title: "Depature Time" },
-                                { title: "Arrival Time" },
+                                { title: "Depature Time", "type": "date" },
+                                { title: "Arrival Time", "type": "date" },
                                 { title: "Class", orderable: false },
                                 { title: "Flight Number", orderable: false },
                                 { title: "Airline" },
@@ -111,7 +136,7 @@ $("#search-button-submit").on("click", function(event) {
                             var data = airTable.row($(this).parents('tr')).data();
                             trip.push(data);
                             console.log(trip);
-                            totalPrice += data[5];
+                            totalPrice += data[6];
                             departureDate = moment(departureDate).add(1, "days");
                             departureDate = moment(departureDate).format('YYYYMMDD');
                             console.log(departureDate);
@@ -124,11 +149,21 @@ $("#search-button-submit").on("click", function(event) {
                                 .done(function(response) {
                                     console.log(response);
                                     var results = response.data.onwardflights;
+
+                                    var errorFilter = response.data_length;
+                                    console.log(errorFilter);
+                                    if (errorFilter == 1) {
+                                        $('#errorFlights').show();
+                                        $("#eventTable").hide();
+                                        $('#flightDiv').hide();
+                                    };
                                     for (var i = 0; i < results.length; i++) {
                                         var fare = results[i].fare.totalfare * .016;
-                                        var depDate = moment(results[i].depdate).format("MMM-Do-YY");
+                                        var depDate = moment(results[i].depdate).format("MM/D/YYYY");
                                         fare = Math.trunc(fare);
-                                        retFlightData.push([results[i].deptime + ", " + depDate, results[i].arrtime, results[i].CabinClass, results[i].flightno, results[i].airline, fare]);
+                                        var depTime = moment(results[i].deptime, "HH:mm").format('h:mm a');
+                                        var arrTime = moment(results[i].arrtime, "HH:mm").format('h:mm a');
+                                        retFlightData.push([depTime + ", " + depDate, arrTime, results[i].CabinClass, results[i].flightno, results[i].airline, "$" + fare, fare]);
                                     };
                                     $("#flightDiv").hide();
                                     $("#retFlightDiv").show();
@@ -136,6 +171,9 @@ $("#search-button-submit").on("click", function(event) {
                                         responsive: true,
                                         "searching": false,
                                         data: retFlightData,
+                                        "order": [
+                                            [1, "desc"]
+                                        ],
                                         columns: [
                                             { title: "Depature Time" },
                                             { title: "Arrival Time" },
@@ -148,16 +186,16 @@ $("#search-button-submit").on("click", function(event) {
                                         "columnDefs": [{
                                             "targets": -1,
                                             "data": null,
-                                            "defaultContent": "<button data-toggle='modal' data-target='#myModal'>Select</button>"
+                                            "defaultContent": "<button class='retFlight' data-toggle='modal' data-target='#myModal'>Select</button>"
                                         }]
                                     });
-                                    $('.btn btn-primary btn-lg').on('click', function() {
+                                    $('.retFlight').on('click', function() {
                                         data = retAirTable.row($(this).parents('tr')).data();
-                                        totalPrice += data[5];
+                                        totalPrice += data[6];
                                         trip.push(data);
                                         console.log(trip);
                                         console.log(totalPrice);
-
+                                        $("#totalCost").html("Total Cost: $" + totalPrice);
                                     });
                                 });
                         });
