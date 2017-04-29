@@ -18,7 +18,21 @@ $("#search-button-submit").on("click", function(event) {
             var results = response.events;
             var dataSet = [];
             var table = $('#myTable').DataTable();
+            var airTable = $('#flightTable').DataTable();
+            var retAirTable = $('#retFlightTable').DataTable();
+
             table.destroy();
+            airTable.destroy();
+            retAirTable.destroy();
+
+
+            $("#eventTable").show();
+            $("#flightDiv").hide();
+            $('#retFlightDiv').hide();
+
+
+
+
             for (var i = 0; i < results.length; i++) {
                 var local = results[i].datetime_local;
                 var localTime = moment(local).format('MMM Do YY, h:mm a');
@@ -41,7 +55,7 @@ $("#search-button-submit").on("click", function(event) {
                 "columnDefs": [{
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<button>Add to Cart</button>"
+                    "defaultContent": "<button>Select</button>"
                 }]
             });
             $('#myTable tbody').on('click', 'button', function() {
@@ -54,7 +68,7 @@ $("#search-button-submit").on("click", function(event) {
                 var departureDate = data[8];
                 var destination = cities[data[7]];
                 var departure = cities[data[6]];
-                var queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + departure + "&destination=" + destination + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
+                var queryURL = "https://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + departure + "&destination=" + destination + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
                 console.log(queryURL);
                 $.ajax({
                         url: queryURL,
@@ -101,7 +115,7 @@ $("#search-button-submit").on("click", function(event) {
                             departureDate = moment(departureDate).add(1, "days");
                             departureDate = moment(departureDate).format('YYYYMMDD');
                             console.log(departureDate);
-                            queryURL = "http://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + destination + "&destination=" + departure + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
+                            queryURL = "https://developer.goibibo.com/api/search/?app_id=7ebce3b6&app_key=dfb5c7018de2ca739ed1cd79e8c6f793&format=json&source=" + destination + "&destination=" + departure + "&dateofdeparture=" + departureDate + "&seatingclass=E&adults=1&children=0&infants=0&counter=100";
                             console.log(queryURL);
                             $.ajax({
                                     url: queryURL,
@@ -134,7 +148,7 @@ $("#search-button-submit").on("click", function(event) {
                                         "columnDefs": [{
                                             "targets": -1,
                                             "data": null,
-                                            "defaultContent": "<button class='btn btn-primary btn-lg' data-toggle='modal' data-target='#myModal'>Select</button>"
+                                            "defaultContent": "<button data-toggle='modal' data-target='#myModal'>Select</button>"
                                         }]
                                     });
                                     $('.btn btn-primary btn-lg').on('click', function() {
@@ -166,5 +180,35 @@ $('#myTable').DataTable({
         { title: "Venue" },
         { title: "Lowest Price" },
         { title: "Purchase" },
+    ]
+});
+
+$('#retFlightTable').DataTable({
+    responsive: true,
+    "searching": false,
+    data: retFlightData,
+    columns: [
+        { title: "Depature Time" },
+        { title: "Arrival Time" },
+        { title: "Class", orderable: false },
+        { title: "Flight Number", orderable: false },
+        { title: "Airline" },
+        { title: "Price" },
+        { title: "Select Flight", orderable: false }
+    ]
+});
+
+$('#flightTable').DataTable({
+    responsive: true,
+    "searching": false,
+    data: flightData,
+    columns: [
+        { title: "Depature Time" },
+        { title: "Arrival Time" },
+        { title: "Class", orderable: false },
+        { title: "Flight Number", orderable: false },
+        { title: "Airline" },
+        { title: "Price" },
+        { title: "Select Flight", orderable: false }
     ]
 });
