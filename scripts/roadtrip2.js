@@ -115,7 +115,7 @@ $("#search-button-submit").on("click", function(event) {
                             "searching": false,
                             data: flightData,
                             "order": [
-                                [1, "desc"]
+                                [0, "desc"]
                             ],
                             columns: [
                                 { title: "Depature Time", "type": "date" },
@@ -172,7 +172,7 @@ $("#search-button-submit").on("click", function(event) {
                                         "searching": false,
                                         data: retFlightData,
                                         "order": [
-                                            [1, "desc"]
+                                            [0, "desc"]
                                         ],
                                         columns: [
                                             { title: "Depature Time" },
