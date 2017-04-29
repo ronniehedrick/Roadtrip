@@ -89,11 +89,20 @@ $("#search-button-submit").on("click", function(event) {
                         var results = response.data.onwardflights;
                         var errorFilter = response.data_length;
                         console.log(errorFilter);
+                        $("#eventTable").hide();
+                        $("#flightDiv").show();
+                        
                         if (errorFilter == 1) {
                             $('#errorFlights').show();
                             $("#eventTable").hide();
                             $('#flightDiv').hide();
                         };
+                        if (results.length < 1) {
+                            $('#errorFlights').show();
+                            $("#eventTable").hide();
+                            $('#flightDiv').hide();
+                        };
+
 
                         for (var i = 0; i < results.length; i++) {
                             var fare = results[i].fare.totalfare * .016;
@@ -106,8 +115,7 @@ $("#search-button-submit").on("click", function(event) {
 
 
                         console.log(flightData);
-                        $("#eventTable").hide();
-                        $("#flightDiv").show();
+                       
 
 
                         var airTable = $('#flightTable').DataTable({
@@ -153,6 +161,12 @@ $("#search-button-submit").on("click", function(event) {
                                     var errorFilter = response.data_length;
                                     console.log(errorFilter);
                                     if (errorFilter == 1) {
+                                        $('#errorFlights').show();
+                                        $("#eventTable").hide();
+                                        $('#flightDiv').hide();
+                                    };
+
+                                    if (results.length < 1) {
                                         $('#errorFlights').show();
                                         $("#eventTable").hide();
                                         $('#flightDiv').hide();
